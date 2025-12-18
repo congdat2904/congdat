@@ -86,7 +86,7 @@
     <header>
         <div class="container">
             <h1>Báo cáo</h1>
-       <h1 style="color: yellow; font-size: 1.5em;">Trịnh Công Đạt-Chiều thứ 5</h1>
+            <h1 style="color: yellow; font-size: 1.5em;">Trịnh Công Đạt-Chiều thứ 5</h1>
             <p style="text-align: center; font-size: 1.2em;">Chủ đề: Tìm hiểu và Ứng dụng DevOps (CI/CD) với GitHub Actions</p>
         </div>
     </header>
@@ -104,7 +104,7 @@
                 <li><strong>Trịnh Công Đạt</strong> - Trưởng nhóm (Tìm hiểu lý thuyết DevOps)</li>
                 <li><strong>Trần Văn B</strong> - Thành viên (Cấu hình GitHub Actions)</li>
                 <li><strong>Lê Thị C</strong> - Thành viên (Viết báo cáo và Demo)</li>
-                </ul>
+            </ul>
         </section>
 
         <section class="content-section">
@@ -117,10 +117,46 @@
                 <p><small>(Khi Developer đẩy code mới, dòng chữ bên trên sẽ tự động thay đổi sau vài phút)</small></p>
             </div>
         </section>
+
+        <section class="content-section">
+            <h2>📝 Dữ liệu từ "Backend" (File JSON)</h2>
+            <ul id="task-list" class="team-list">
+                <li>⏳ Đang tải dữ liệu từ database.json...</li>
+            </ul>
+        </section>
+
     </div>
 
     <footer>
         <p>Bài tập môn Mã nguồn mở &copy; 2025 </p>
     </footer>
+
+    <script>
+        // Hàm giả lập gọi API lấy dữ liệu từ file database.json
+        fetch('./database.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Không tìm thấy file database.json");
+                }
+                return response.json();
+            })
+            .then(data => {
+                const list = document.getElementById('task-list');
+                list.innerHTML = ''; // Xóa dòng "Đang tải..."
+                
+                // Duyệt qua từng dòng dữ liệu và in ra màn hình
+                data.forEach(task => {
+                    const li = document.createElement('li');
+                    // In ra tên task và trạng thái với màu sắc
+                    li.innerHTML = `<strong>${task.name}</strong> - <span style="color:blue; font-weight:bold;">${task.status}</span>`;
+                    list.appendChild(li);
+                });
+            })
+            .catch(error => {
+                console.error('Lỗi kết nối Backend:', error);
+                document.getElementById('task-list').innerHTML = 
+                    '<li style="color:red; background: #ffe6e6;">⚠️ Lỗi: Chưa tạo file database.json hoặc không đọc được file!</li>';
+            });
+    </script>
 </body>
 </html>
